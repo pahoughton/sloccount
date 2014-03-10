@@ -175,7 +175,9 @@ $noisy = 0;            # Set to 1 if you want noisy reports.
   "f90" => "f90", "F90" => "f90",
   "cob" => "cobol", "cbl" => "cobol",
   "COB" => "cobol", "CBL" => "cobol",  # Yes, people do create wokka.CBL files
-  "p" => "pascal", "pas" => "pascal", "pp" => "pascal", "dpr" => "pascal",
+  "p" => "pascal", "pas" => "pascal",
+  "pp" => "puppet",
+  "dpr" => "pascal",
   "pig" => "pig", "piglet" => "pig",
   "py" => "python",
   "s" => "asm", "S" => "asm", "asm" => "asm",
