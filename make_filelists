@@ -1,5 +1,5 @@
 #!/bin/sh
-set -x
+# set -x
 # On the command line, list the source code directories, e.g.:
 #    /usr/src/redhat/BUILD/*
 # This command creates a set of directories paralleling the source code
