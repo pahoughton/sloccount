@@ -138,13 +138,12 @@ do
   find "$dir" $follow -type f -print    \
       | grep -v -e '/.\git/' -e '/CVS/' \
       > "${childname}/filelist.in"
-  echo FIXME
-  cat "${childname}/filelist.in" 
   if grep sloccount.skip "${childname}/filelist.in" > /dev/null
   then
-   (echo grep -v `cat "${childname}/filelist.in" | sed -n -e '/.sloccount.skip/{ s~^\(.*\).sloccount.skip~-e "\\1" ~
-p
-}'` "${childname}/filelist.in") > \"${childname}/filelist\" 
+   echo "grep -v `grep sloccount.skip "${childname}/filelist.in" \
+    | sed -e 's~^\(.*\).sloccount.skip~-e \"\\1\" ~'`" \"${childname}/filelist.in\" > "${datadir}/sloc.$$.skip"
+   bash "${datadir}/sloc.$$.skip" > "${childname}/filelist"
+   cat "${childname}/filelist"
    rm "${childname}/filelist.in"
   else
    mv "${childname}/filelist.in" "${childname}/filelist"
