@@ -11,21 +11,21 @@
 # This is part of SLOCCount, a toolsuite that counts
 # source lines of code (SLOC).
 # Copyright (C) 2001-2004 David A. Wheeler.
-# 
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-# 
+#
 # To contact David A. Wheeler, see his website at:
 #  http://www.dwheeler.com.
 
@@ -54,7 +54,6 @@ $noisy = 0;            # Set to 1 if you want noisy reports.
 
 # The following extensions are NOT code:
 %not_code_extensions = (
-   "html" => 1,
    "in" => 1,    # Debatable.
    "xpm" => 1,
    "po" => 1,
@@ -119,10 +118,6 @@ $noisy = 0;            # Set to 1 if you want noisy reports.
 
 # The following filenames are NOT code:
 %not_code_filenames = (
-   "README" => 1,
-   "Readme" => 1,
-   "readme" => 1,
-   "README.tk" => 1, # used in kdemultimedia, it's confusing.
    "Changelog" => 1,
    "ChangeLog" => 1,
    "Repository" => 1,
@@ -149,6 +144,10 @@ $noisy = 0;            # Set to 1 if you want noisy reports.
 # .am automake input
 
 %file_extensions = (
+    # added by paul4hough@gmail.com
+  "pp" => "puppet",
+  "css" => "css",
+    # end pah
   "c" => "ansic",
   "ec" => "ansic",   # Informix C.
   "ecp" => "ansic",  # Informix C.
@@ -176,15 +175,14 @@ $noisy = 0;            # Set to 1 if you want noisy reports.
   "cob" => "cobol", "cbl" => "cobol",
   "COB" => "cobol", "CBL" => "cobol",  # Yes, people do create wokka.CBL files
   "p" => "pascal", "pas" => "pascal",
-  "pp" => "puppet",
   "dpr" => "pascal",
   "pig" => "pig", "piglet" => "pig",
   "py" => "python",
   "s" => "asm", "S" => "asm", "asm" => "asm",
   "sh" => "sh", "bash" => "sh",
-  "csh" => "csh", "tcsh" => "csh", 
+  "csh" => "csh", "tcsh" => "csh",
   "java" => "java",
-  "lisp" => "lisp", "el" => "lisp", "scm" => "lisp", "sc" => "lisp", 
+  "lisp" => "lisp", "el" => "lisp", "scm" => "lisp", "sc" => "lisp",
   "lsp" => "lisp", "cl" => "lisp",
   "jl" => "lisp",
   "tcl" => "tcl", "tk" => "tcl", "itk" => "tcl",
@@ -504,7 +502,7 @@ sub really_is_pascal {
    # Originally I said:
    # "This heuristic fails if there are multi-line comments after
    # "end."; I haven't seen that in real Pascal programs:"
-   # But jgb found there are a good quantity of them in Debian, specially in 
+   # But jgb found there are a good quantity of them in Debian, specially in
    # fpc (at the end of a lot of files there is a multiline comment
    # with the changelog for the file).
    # Therefore, assume Pascal if "end." appears anywhere in the file.
@@ -539,7 +537,7 @@ sub really_is_incpascal {
 # 2. Any usual reserverd word is found (program, unit, const, begin...)
 
  # If the general routine for Pascal files works, we have it
- if (&really_is_pascal ($filename)) { 
+ if (&really_is_pascal ($filename)) {
    $pascal_files{$filename} = 1;
    return 1;
  }
@@ -634,7 +632,7 @@ sub really_is_pig {
       die "Can't open $filename to determine if it's pig.\n";
  while(<PIG_FILE>) {
    # most Pig opterations need a terminating semicolon and equals
-   # signs to define a relation 
+   # signs to define a relation
    if (m/;/i)    { $script_semicolon |= 1; }
    if (m/=/i)    { $script_equals |= 1; }
    # all FOREACH's need a GENERATE
@@ -948,50 +946,50 @@ sub file_type_from_contents() {
  if ( ($command =~ m/^(t?csh\d*)[0-9\.]*(\.exe)?$/i) ||
       ($firstline =~ m@^#!\s*xCSH_PATHx(\s|\Z)@)) {
     return "csh";
- } 
+ }
  if ( ($command =~ m/^(mini)?perl[0-9\.]*(\.exe)?$/i) ||
       ($command =~ m/^speedycgi[0-9\.]*(\.exe)?$/i) ||
       ($firstline =~ m~^#!\s*\@_?(PATH_)?PERL\d*(PROG)?\@(\s|\Z)~)  ||
       ($firstline =~ m~^#!\s*xPERL_PATHx(\s|\Z)~)) {
     return "perl";
- } 
+ }
  if ($command =~ m/^python[0-9\.]*(\.exe)?$/i) {
     return "python";
- } 
+ }
  if ($command =~ m/^ruby[0-9\.]*(\.exe)?$/i) {
     return "ruby";
- } 
+ }
  if ($command =~ m/^pig[0-9-\.]*/) {
     return "pig";
- } 
+ }
  if ($command =~ m/^(tcl|tclsh|bltwish|wish|wishx|WISH)[0-9\.]*(\.exe)?$/i) {
     return "tcl";
- } 
- if ($command =~ m/^expectk?[0-9\.]*(\.exe)?$/i) { return "exp"; } 
- if ($command =~ m/^[ng]?awk[0-9\.]*(\.exe)?$/i) { return "awk"; } 
- if ($command =~ m/^sed$/i) { return "sed"; } 
- if ($command =~ m/^guile[0-9\.]*$/i) { return "lisp"; } 
+ }
+ if ($command =~ m/^expectk?[0-9\.]*(\.exe)?$/i) { return "exp"; }
+ if ($command =~ m/^[ng]?awk[0-9\.]*(\.exe)?$/i) { return "awk"; }
+ if ($command =~ m/^sed$/i) { return "sed"; }
+ if ($command =~ m/^guile[0-9\.]*$/i) { return "lisp"; }
  if ($firstline =~ m@^#!.*make\b@i) {  # We'll claim that #! make is a makefile.
     return "makefile";
- } 
+ }
  if ($firstline =~ m@^#!\s*\.(\s|\Z)@) {  # Lonely period.
     return "";  # Ignore the first line, it's not helping.
- } 
+ }
  if ($firstline =~ m@^#!\s*\Z@) {  # Empty line.
     return "";  # Ignore the first line, it's not helping.
- } 
+ }
  if ($firstline =~ m@^#!\s*/dev/null@) {  # /dev/null is the script?!?
     return "";  # Ignore nonsense ("/dev/null").
- } 
+ }
  if ($firstline =~ m@^#!\s*/unix(\s|Z)@) {
     return "";  # Ignore nonsense ("/unix").
- } 
+ }
  if (($filename =~ m@\.pl$@) || ($filename =~ m@\.pm$@)) {
     return "";  # Don't warn about files that will be ID'd as perl files.
- } 
+ }
  if (($filename =~ m@\.sh$@)) {
     return "";  # Don't warn about files that will be ID'd as sh files.
- } 
+ }
  if ($firstline =~ m@^#!\s*\S@) {
     $firstline =~ s/\n.*//s;  # Delete everything after first line.
     $warning_from_first_line = "WARNING! File $filename has unknown start: $firstline";
@@ -1063,7 +1061,7 @@ sub get_file_type {
    # Peek at first line to determine type.  Note that the file contents
    # take precedence over the filename extension, because there are files
    # (such as /usr/src/redhat/BUILD/teTeX-1.0/texmf/doc/mkhtml.nawk)
-   # which have one extension (say, ".nawk") but actually contain 
+   # which have one extension (say, ".nawk") but actually contain
    # something else (at least in part):
    $type = &file_type_from_contents($file_to_examine);
    if ($type) {
@@ -1330,7 +1328,7 @@ while ( $dir = shift ) {
 
 
  $dup_count = 0;
- 
+
  while (defined($_ = <FILELIST>)) {
    chomp;
    $file = $_;
@@ -1370,5 +1368,3 @@ while ( $dir = shift ) {
  }
 
 }
-
-
