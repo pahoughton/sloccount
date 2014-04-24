@@ -1,0 +1,27 @@
+/**
+ css.css - 2014-04-24 05:55
+
+ Copyright (c) 2014 Paul Houghton <paul4hough@gmail.com>
+**/
+@charset "utf-8";
+
+html, body {
+    background-color:#e0e0e0;
+    padding:0px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+body {
+    width: 97%;
+    background-color: #fff;
+    margin: 0px auto;
+    margin-top: 5px;
+    border: 1px solid #929292;
+}
+.header {
+    background-color: #001e2e;
+    color:#fff;
+    font-size:11px;
+}
+.header table {
+    width: 100%;
+}
