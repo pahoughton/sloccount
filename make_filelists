@@ -1,5 +1,5 @@
 #!/bin/sh
-
+# set -x
 # On the command line, list the source code directories, e.g.:
 #    /usr/src/redhat/BUILD/*
 # This command creates a set of directories paralleling the source code
@@ -134,7 +134,27 @@ do
     fi
 
     echo "Creating filelist for $childname" 1>&2
-    find "$dir" $follow -type f -print > "${childname}/filelist"
+    #  find "$dir" $follow -type f -print > "${childname}/filelist"
+
+    #PAH - strip out .git files and contents of dirs with .sloccount.skip
+
+    find "$dir" $follow -type f -print    \
+      | grep -v -e '/.\git/' -e '/CVS/' -e '/.svn' \
+      > "${childname}/filelist.in"
+    if grep sloccount.skip "${childname}/filelist.in" > /dev/null
+    then
+      grep sloccount.skip "${childname}/filelist.in" \
+	| sed -e 's~^\(.*\).sloccount.skip~grep -v -e "\1" |~' \
+	> "${datadir}/sloc.$$.skip"
+      echo cat >> "${datadir}/sloc.$$.skip"
+      bash "${datadir}/sloc.$$.skip" \
+	< "${childname}/filelist.in" \
+	> "${childname}/filelist"
+      cat "${childname}/filelist"
+      rm "${childname}/filelist.in"
+    else
+      mv "${childname}/filelist.in" "${childname}/filelist"
+    fi
 
     # If it exists, copy the PROGRAM_LICENSE.
     if [ -s "${dir}/PROGRAM_LICENSE" ]

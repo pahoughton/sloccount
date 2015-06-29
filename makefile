@@ -99,6 +99,7 @@ EXECUTABLES= \
    count_extensions \
    count_unknown_ext \
    csh_count \
+   css_count \
    exp_count \
    fortran_count \
    f90_count \
@@ -116,6 +117,7 @@ EXECUTABLES= \
    objc_count \
    perl_count \
    print_sum \
+   puppet_count \
    python_count \
    ruby_count \
    sed_count \
