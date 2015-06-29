@@ -2,21 +2,21 @@
 # This is part of SLOCCount, a toolsuite that counts
 # source lines of code (SLOC).
 # Copyright (C) 2001-2004 David A. Wheeler.
-# 
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-# 
+#
 # To contact David A. Wheeler, see his website at:
 #  http://www.dwheeler.com.
 
@@ -128,6 +128,10 @@ EXECUTABLES= \
    vbscript_count \
    $(COMPILED_EXECUTABLES)
 
+
+# Generated below by flex; we need to know these so "make clean" works.
+GENERATED_SOURCE=pascal_count.c jsp_count.c
+
 MANPAGES=sloccount.1.gz
 
 MYDOCS=sloccount.html README TODO ChangeLog
@@ -201,7 +205,7 @@ uninstall: uninstall_programs uninstall_docs uninstall_man
 
 
 clean:
-	-rm -f $(COMPILED_EXECUTABLES) core sloccount.1.gz
+	-rm -f $(COMPILED_EXECUTABLES) $(GENERATED_SOURCE) core sloccount.1.gz
 
 phptest: php_count
 	./php_count *.php
@@ -258,4 +262,3 @@ test: all
 
 # Support "make check"
 check: test
-
