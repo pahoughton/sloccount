@@ -1,0 +1,4 @@
+#!/bin/sh
+# 2014-03-10 (cc) paul4hough@gmail.com
+#
+c_count $@
