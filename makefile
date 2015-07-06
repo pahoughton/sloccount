@@ -264,3 +264,6 @@ test: all
 
 # Support "make check"
 check: test
+
+count: all
+	PATH=.:$$PATH sloccount .

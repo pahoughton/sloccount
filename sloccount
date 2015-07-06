@@ -8,28 +8,30 @@
 # This is part of SLOCCount, a toolsuite that counts
 # source lines of code (SLOC).
 # Copyright (C) 2001-2004 David A. Wheeler.
-# 
+#
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 2 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-# 
+#
 # To contact David A. Wheeler, see his website at:
 #  http://www.dwheeler.com.
 
 # See the SLOCCount documentation if you need
 # more details about the license.
+[ -z "$DEBUG" ] || set -x
 
 version=2.26
+scriptdir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 if [ "$#" -eq 0 ]
 then
@@ -144,7 +146,7 @@ in
      echo "Warning: You cannot control what files are selected in a cache."
      echo "The option '--cached' disables --duplicates, --crossdups,"
      echo "--autogen, and --follow.  Remove the --cached option if you"
-     echo "are changing what you wish to include in your calculations." 
+     echo "are changing what you wish to include in your calculations."
      echo
    fi
    if [ -d "$datadir" ]
@@ -184,7 +186,7 @@ in
    exit 1
   fi
 
-  
+
   # Split things up if we're given only one directory on the argument line
   # and that directory has more than one subdirectory:
   split_things_up="n"
@@ -209,28 +211,33 @@ in
   then
     split_things_up="n"
   fi
-  
+
   case $split_things_up
   in
-   y) make_filelists $follow $notopfollow --datadir "$datadir" --skip src "$1"/* ||
+   y) "$scriptdir"/make_filelists $follow $notopfollow --datadir "$datadir" --skip src "$1"/* ||
           exit 1
       if [ -d "$1"/src ]
       then
-       make_filelists $notopfollow --datadir "$datadir" --prefix "src_" "$1"/src/* ||
+       "$scriptdir"/make_filelists $notopfollow --datadir "$datadir" --prefix "src_" "$1"/src/* ||
           exit 1
       fi
       ;;
-   *) make_filelists $follow $notopfollow --datadir "$datadir" "$@" || exit 1
+   *) "$scriptdir"/make_filelists $follow $notopfollow --datadir "$datadir" "$@" || exit 1
       ;;
   esac
-  
+
   cd $datadir
   if echo "Categorizing files." 1>&2 &&
-     break_filelist --duplistfile sloc_hashes $duplicate_control $autogen * &&
+     echo $PATH &&
+     pwd &&
+     "$scriptdir"/break_filelist --duplistfile sloc_hashes $duplicate_control $autogen * &&
      echo "Computing results." 1>&2 &&
-     compute_all *
+     "$scriptdir"/compute_all *
   then
     display_results=y
+  else
+    echo 'categorizing files failed!'
+    exit 1
   fi
   echo 1>&2
   echo 1>&2
@@ -251,8 +258,7 @@ in
   cd $datadir
   case $details
   in
-    y)   get_sloc_details * ;;
-    *)   get_sloc $addlang $showother $filecount $oneprogram $effort_model $schedule_model $personcost $overhead * ;;
+    y)   "$scriptdir"/get_sloc_details * ;;
+    *)   "$scriptdir"/get_sloc $addlang $showother $filecount $oneprogram $effort_model $schedule_model $personcost $overhead * ;;
   esac;;
 esac
-

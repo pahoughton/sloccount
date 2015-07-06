@@ -1,4 +1,7 @@
 #!/bin/sh
 # 2014-03-10 (cc) paul4hough@gmail.com
 #
-generic_count '#' $@
+[ -z "$DEBUG" ] || set -x;
+scriptdir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
+
+"$scriptdir"/generic_count '#' $@

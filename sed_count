@@ -23,5 +23,8 @@
 # 
 # 
 
-generic_count '#' $@
+[ -z "$DEBUG" ] || set -x;
+scriptdir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
+
+"$scriptdir"/generic_count '#' $@
 
