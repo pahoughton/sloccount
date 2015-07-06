@@ -1,8 +1,4 @@
 #!/bin/sh
-# puppet_count - 2014-03-10 16:39
-#
-# count puppet code
-#
-# Copyright (c) 2014 Paul Houghton <paul4hough@gmail.com>
+# 2014-03-10 (cc) paul4hough@gmail.com
 #
 generic_count '#' $@
