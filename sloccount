@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This is the front-end program "sloccount", part of the
 # SLOCCount tool suite by David A. Wheeler.
