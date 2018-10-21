@@ -1,13 +1,14 @@
 #
 # RPM spec file for "sloccount".
 #
-%define PKG_VERSION 2.26
+%define PKG_VERSION 2.27
 
 Name: sloccount
 Summary: Measures source lines of code (SLOC) in programs
 Version: %{PKG_VERSION}
 Release: 1
-Copyright: GPL
+# Copyright: GPL
+License: GPL
 Group: Development/Tools
 Source: http://www.dwheeler.com/sloccount/sloccount-%{PKG_VERSION}.tar.gz
 URL: http://www.dwheeler.com/sloccount

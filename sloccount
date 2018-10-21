@@ -31,7 +31,8 @@
 [ -z "$DEBUG" ] || set -x
 
 version=2.26
-scriptdir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+echo
+scriptdir="$(readlink -f "$0")"
 
 if [ "$#" -eq 0 ]
 then
