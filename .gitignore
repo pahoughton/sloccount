@@ -10,3 +10,5 @@ pascal_count.c
 php_count
 pig_count
 sloc_hashes
+sloccount-*.tar.gz
+sloccount.1.gz
